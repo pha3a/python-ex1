@@ -20,7 +20,7 @@ def countCows(number, guess) -> int:
     return cowsFound
 
 
-def countBulls(number, guess) -> list:
+def countBulls(number, guess) -> int:
     """
     Count the number of digits that match, but which are not in the correct location.
     :param number: random number user is trying to guess

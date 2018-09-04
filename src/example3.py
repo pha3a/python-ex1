@@ -56,7 +56,26 @@ def print_text_from_classes(url, *class_names):
         if story_body.a:
             print(story_body.a.text.replace("\n", " ").strip())
         else:
-            print(story_body.text)
+            text = story_body.text
+            print_wrapped_lines(text)
+
+
+def print_wrapped_lines(text):
+    """
+    Print the text word wrapped to 80 ish columns, trying to break on a space.
+    :param text: to print
+    :return: Nothing
+    """
+    while len(text) > 80:
+        # Search for a space between character 75-85
+        index =75
+        while index < 85 and index < len(text) and text[index] != " ":
+            index = index+1
+        print(text[0:index])
+        if text[index] == " ":
+            index = index +1
+        text = text[index:]
+    print(text)
 
 
 if __name__ == "__main__":
@@ -67,4 +86,4 @@ if __name__ == "__main__":
     #
     # or print the contents of the page
     #
-    print_text_from_classes(base_url, "hed", "rubric", "dek")
+    print_text_from_classes(base_url, "hed", "content-section", "dek")

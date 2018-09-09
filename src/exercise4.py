@@ -3,9 +3,12 @@
 # See https://www.practicepython.org/exercise/2017/02/06/34-birthday-json.html
 #
 import json
+from collections import Counter
 
 
 class Birthdays:
+
+    month_name = ("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec")
 
     def __init__(self):
         with open('birthdays.json', 'r') as infile:
@@ -31,6 +34,27 @@ class Birthdays:
         with open('birthdays.json', 'w') as outfile:
             json.dump(self.birthday_dictionary, outfile)
 
+    def count_months(self):
+        """
+        Count the number of people born in each month and print the result as a dictionary. The key being the
+        month name rather than the month number.
+        :return: Nothing
+        """
+        print(">>> Number of people born in each month is:")
+        months = list()
+        for date in self.birthday_dictionary.values():
+            month = date.split("/")[1]
+            months += month
+        counter = dict(Counter(months))
+        result = dict()
+        keys = counter.keys()
+        sorted_keys = sorted(keys)
+        for month_number in sorted_keys:
+            name = self.month_name[int(month_number)-1]
+            result[name] = counter[month_number]
+
+        print(result)
+
 
 if __name__ == "__main__":
 
@@ -39,10 +63,12 @@ if __name__ == "__main__":
     action = "p"
     print(">>> Welcome to birthday dictionary.")
     while action != "x":
-        action = input(">>> What do you want to do (a=add, p=print list, l=look up, x=exit)? ")
+        action = input(">>> What do you want to do (a=add, p=print list, l=look up, m=count months, x=exit)? ")
         if action == "p":
             birthdays.show_all_names()
         elif action == "l":
             birthdays.show_single_birthday()
         elif action == "a":
             birthdays.add_new_birthday()
+        elif action == "m":
+            birthdays.count_months()

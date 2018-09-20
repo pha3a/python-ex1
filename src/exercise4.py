@@ -55,6 +55,23 @@ class Birthdays:
 
         print(result)
 
+    def execute(self, action):
+        """
+        Dispatcher method
+        """
+        methods = {
+            "p": "show_all_names",
+            "l": "show_single_birthday",
+            "a": "add_new_birthday",
+            "m": "count_months"
+        }
+        method_name = methods.get(action)
+        if method_name:
+            method = getattr(self, method_name)
+            method()
+        else:
+            print("Unknown action '", action, "'")
+
 
 if __name__ == "__main__":
 
@@ -64,11 +81,4 @@ if __name__ == "__main__":
     print(">>> Welcome to birthday dictionary.")
     while action != "x":
         action = input(">>> What do you want to do (a=add, p=print list, l=look up, m=count months, x=exit)? ")
-        if action == "p":
-            birthdays.show_all_names()
-        elif action == "l":
-            birthdays.show_single_birthday()
-        elif action == "a":
-            birthdays.add_new_birthday()
-        elif action == "m":
-            birthdays.count_months()
+        birthdays.execute(action)
